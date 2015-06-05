@@ -43,6 +43,7 @@ void registerGlobalObject(const char *objectName, luaL_Reg *regs)
 
 void prepareLuaState()
 {
+
 	luaState = luaL_newstate();
 	luaL_openlibs(luaState);
 
@@ -159,14 +160,14 @@ int hookEvent(lua_State *luaState)
 		return 0;
 	}
 
-	int functionId;
-	std::string functionName;
-
 	/* Add the function on top of the stack to Lua's registry */
+	int functionId;
 	functionId = luaL_ref(luaState, LUA_REGISTRYINDEX);
 
 	/* Grab the function name and clean the stack */
-	functionName = strdup(lua_tostring(luaState, lua_gettop(luaState)));
+	size_t len;
+	const char *tempFunc = lua_tolstring(luaState, lua_gettop(luaState), &len);
+	std::string functionName(tempFunc, len);
 	lua_pop(luaState, 1);
 
 	/* Add the registry index ID at 'functionName' to a vector that contains a list of ids that have already registered */
