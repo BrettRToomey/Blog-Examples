@@ -76,8 +76,6 @@ void prepareLuaState()
 	 */
 	registerGlobalObject("Time", timefuncs);
 
-	loadScript("test.lua");
-
 }
 
 lua_State *loadScript(const char *scriptPath)
@@ -201,6 +199,8 @@ int main()
 {
 
 	prepareLuaState();
+
+	loadScript("test.lua");
 	
 	for (unsigned int i=0; i < 60; i++)
 	{
